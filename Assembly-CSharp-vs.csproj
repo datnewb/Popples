@@ -46,11 +46,16 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Bubble.cs" />
-     <Compile Include="Assets\BubbleDropper.cs" />
-     <Compile Include="Assets\BubblePairHandler.cs" />
-     <Compile Include="Assets\BubbleSpawner.cs" />
-     <Compile Include="Assets\PrototypeUI.cs" />
+     <Compile Include="Assets\Scripts\Game\Bubble.cs" />
+     <Compile Include="Assets\Scripts\Game\BubbleDropper.cs" />
+     <Compile Include="Assets\Scripts\Game\BubblePairHandler.cs" />
+     <Compile Include="Assets\Scripts\Game\BubbleSpawner.cs" />
+     <Compile Include="Assets\Scripts\Game\GameStats.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\UI\GameUI.cs" />
+     <Compile Include="Assets\Scripts\UI\MainMenuUI.cs" />
+     <Compile Include="Assets\Scripts\UI\PauseUI.cs" />
+     <Compile Include="Assets\Scripts\UI\PostGameUI.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Tools/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.2/UnityEngine.UI.dll</HintPath>
  </Reference>
