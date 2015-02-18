@@ -3,20 +3,17 @@ using System.Collections;
 
 public class BubbleDropper : MonoBehaviour
 {
-
     public float dropSpeed;
-    public uint maxSpeedAtCombo;
     public float additionalSpeedMultiplier;
     float currentDropHeight;
     BubbleSpawner bubbleSpawner;
+
     private GameManager gameManager;
-    GameStats gameStats;
 
     void Start()
     {
         currentDropHeight = 0;
         bubbleSpawner = GetComponent<BubbleSpawner>();
-        gameStats = FindObjectOfType<GameStats>();
         gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -26,11 +23,11 @@ public class BubbleDropper : MonoBehaviour
         {
             if (!GetComponent<Canvas>().enabled)
                 GetComponent<Canvas>().enabled = true;
-            if (gameStats == null)
-                gameStats = FindObjectOfType<GameStats>();
+            if (gameManager.gameStats == null)
+                gameManager.gameStats = FindObjectOfType<GameStats>();
             else
             {
-                float currentDropSpeed = (dropSpeed + additionalSpeedMultiplier * gameStats.Combo) * Time.deltaTime;
+                float currentDropSpeed = (dropSpeed + additionalSpeedMultiplier * gameManager.gameStats.Combo) * Time.deltaTime;
                 currentDropHeight += currentDropSpeed;
                 float highestRow = float.MinValue;
                 foreach (Bubble bubble in FindObjectsOfType<Bubble>())

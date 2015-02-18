@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameStats : MonoBehaviour 
 {
-    internal const float StartTime = 5;
+    internal const float StartTime = 60;
     const uint BaseScorePerPair = 50;
     const float ComboMaxTime = 2f;
 
