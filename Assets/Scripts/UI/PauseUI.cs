@@ -39,6 +39,7 @@ public class PauseUI : MonoBehaviour
     public void Reset()
     {
         Application.LoadLevel(1);
+        gameManager.CurrentGameState = GameState.Game;
         if (gameManager.gameStats != null)
             gameManager.gameStats.ResetGameStats();
     }
