@@ -43,11 +43,7 @@ public class Bubble : MonoBehaviour
 
     void Update()
     {
-        gameCanvasRect = new Rect(
-            0,
-            0,
-            gameCanvas.GetComponent<RectTransform>().rect.width,
-            gameCanvas.GetComponent<RectTransform>().rect.height);
+        gameCanvasRect = gameCanvas.GetComponent<Canvas>().pixelRect;
 
         bubbleRect = new Rect(
             GetComponent<RectTransform>().position.x - GetComponent<RectTransform>().rect.width / 2,
@@ -55,7 +51,7 @@ public class Bubble : MonoBehaviour
             GetComponent<RectTransform>().rect.width,
             GetComponent<RectTransform>().rect.height);
 
-        intersectsGameRect = gameCanvasRect.Overlaps(bubbleRect);
+        intersectsGameRect = gameCanvasRect.Overlaps(bubbleRect, true);
         if (wasInGameRect)
         {
             if (!intersectsGameRect)
@@ -65,7 +61,7 @@ public class Bubble : MonoBehaviour
                     GameObject.FindObjectOfType<BubblePairHandler>().selectedBubbles = new List<Bubble>();
                     GameObject.FindObjectOfType<GameStats>().ResetCombo();
                 }
-                Destroy(gameObject);
+                Invoke("DestroyBubble", 0.2f);
             }
         }
         else
@@ -86,5 +82,11 @@ public class Bubble : MonoBehaviour
         GameObject.FindObjectOfType<BubblePairHandler>().selectedBubbles.Add(this);
         GameObject.FindObjectOfType<GameStats>().ResetComboTimer();
         GetComponent<Button>().interactable = false;
+        GameObject.Find("GraphicsComponentsManager").GetComponent<GraphicsComponentsManager>().PopGraphics(this.GetComponent<RectTransform>(), GetComponent<Image>().sprite);
+    }
+
+    private void DestroyBubble()
+    {
+        Destroy(gameObject);
     }
 }

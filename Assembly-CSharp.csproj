@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\Game\GameStats.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\UI\GameUI.cs" />
+     <Compile Include="Assets\Scripts\UI\GraphicsComponentsManager.cs" />
      <Compile Include="Assets\Scripts\UI\MainMenuUI.cs" />
      <Compile Include="Assets\Scripts\UI\PauseUI.cs" />
      <Compile Include="Assets\Scripts\UI\PostGameUI.cs" />

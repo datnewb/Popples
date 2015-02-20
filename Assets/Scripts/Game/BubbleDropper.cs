@@ -28,6 +28,7 @@ public class BubbleDropper : MonoBehaviour
             else
             {
                 float currentDropSpeed = (dropSpeed + additionalSpeedMultiplier * gameManager.gameStats.Combo) * Time.deltaTime;
+                GameObject.Find("GraphicsComponentsManager").GetComponent<GraphicsComponentsManager>().currentDropSpeed = currentDropSpeed;
                 currentDropHeight += currentDropSpeed;
                 float highestRow = float.MinValue;
                 foreach (Bubble bubble in FindObjectsOfType<Bubble>())
