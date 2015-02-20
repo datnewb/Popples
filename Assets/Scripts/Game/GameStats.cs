@@ -71,6 +71,7 @@ public class GameStats : MonoBehaviour
         combo++;
         if (combo > highestCombo)
             highestCombo = combo;
+        GameObject.Find("GraphicsComponentsManager").GetComponent<GraphicsComponentsManager>().AddComboGraphics(combo);
     }
 
     public void ResetCombo()

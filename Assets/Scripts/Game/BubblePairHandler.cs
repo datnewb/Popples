@@ -25,6 +25,7 @@ public class BubblePairHandler : MonoBehaviour
                 {
                     gameStats.AddScore();
                     gameStats.AddCombo();
+                    GameObject.Find("GraphicsComponentsManager").GetComponent<GraphicsComponentsManager>().ShakeScreen();
                 }
                 else
                 {
