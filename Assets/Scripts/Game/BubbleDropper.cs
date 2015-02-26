@@ -9,12 +9,14 @@ public class BubbleDropper : MonoBehaviour
     BubbleSpawner bubbleSpawner;
 
     private GameManager gameManager;
+    private GraphicsComponentsManager graphicsComponentsManager;
 
     void Start()
     {
         currentDropHeight = 0;
         bubbleSpawner = GetComponent<BubbleSpawner>();
         gameManager = FindObjectOfType<GameManager>();
+        graphicsComponentsManager = FindObjectOfType<GraphicsComponentsManager>();
     }
 
     void Update()
@@ -28,7 +30,7 @@ public class BubbleDropper : MonoBehaviour
             else
             {
                 float currentDropSpeed = (dropSpeed + additionalSpeedMultiplier * gameManager.gameStats.Combo) * Time.deltaTime;
-                GameObject.Find("GraphicsComponentsManager").GetComponent<GraphicsComponentsManager>().currentDropSpeed = currentDropSpeed;
+                graphicsComponentsManager.currentDropSpeed = currentDropSpeed;
                 currentDropHeight += currentDropSpeed;
                 float highestRow = float.MinValue;
                 foreach (Bubble bubble in FindObjectsOfType<Bubble>())
@@ -40,10 +42,10 @@ public class BubbleDropper : MonoBehaviour
                     }
                 }
 
-                if (currentDropHeight >= bubbleSpawner.bubbleCoordInterval)
+                if (currentDropHeight >= BubbleSpawner.bubbleCoordInterval)
                 {
-                    bubbleSpawner.CreateNewBubbleRow(highestRow + bubbleSpawner.bubbleCoordInterval);
-                    currentDropHeight -= bubbleSpawner.bubbleCoordInterval;
+                    bubbleSpawner.CreateNewBubbleRow(highestRow + BubbleSpawner.bubbleCoordInterval);
+                    currentDropHeight -= BubbleSpawner.bubbleCoordInterval;
                 }
             }
         }

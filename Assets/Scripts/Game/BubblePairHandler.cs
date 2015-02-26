@@ -23,8 +23,15 @@ public class BubblePairHandler : MonoBehaviour
             {
                 if (selectedBubbles[0].bubbleColor == selectedBubbles[1].bubbleColor)
                 {
-                    gameStats.AddScore();
+                    for (int bubbleIndex = 0; bubbleIndex < selectedBubbles.Count; bubbleIndex++)
+                        gameStats.AddScore();
+
                     gameStats.AddCombo();
+
+                    selectedBubbles[1].gameObject.GetComponent<PowerUp>().actualEffect();
+                    foreach (PowerUp powerUp in FindObjectsOfType<PowerUp>())
+                        Destroy(powerUp);
+
                     GameObject.Find("GraphicsComponentsManager").GetComponent<GraphicsComponentsManager>().ShakeScreen();
                 }
                 else
@@ -33,12 +40,7 @@ public class BubblePairHandler : MonoBehaviour
                 }
                 foreach (Bubble bubble in selectedBubbles)
                 {
-                    if (bubble.imagesSet)
-                    {
-                        bubble.gameObject.GetComponent<Button>().image = bubble.poppedPairedImage;
-                    }
-                    else
-                        bubble.gameObject.GetComponent<Button>().image.color = Color.black;
+                    bubble.gameObject.GetComponent<Button>().image.color = Color.black;
                 }
                 selectedBubbles = new List<Bubble>();
             }

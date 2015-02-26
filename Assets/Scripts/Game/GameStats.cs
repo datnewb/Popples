@@ -3,13 +3,13 @@ using System.Collections;
 
 public class GameStats : MonoBehaviour 
 {
-    internal const float StartTime = 60;
-    const uint BaseScorePerPair = 50;
+    internal const float StartTime = 3;
+    const uint BaseScorePerBubble = 25;
     const float ComboMaxTime = 2f;
 
     uint score;
     uint combo;
-    float currentTime;
+    float currentTime = StartTime;
     float currentComboTime;
 
     internal uint highestCombo;
@@ -24,7 +24,9 @@ public class GameStats : MonoBehaviour
 
     void Update()
     {
-        if (gameManager.CurrentGameState == GameState.Game)
+        if (gameManager.CurrentGameState == GameState.Game &&
+            FindObjectsOfType<CountDownTimer>().Length <= 0 && 
+            CurrentTime > 0)
         {
             UpdateTime();
             CheckCombo();
@@ -61,9 +63,9 @@ public class GameStats : MonoBehaviour
     public void AddScore()
     {
         if (combo <= 0)
-            score += BaseScorePerPair;
+            score += BaseScorePerBubble;
         else
-            score += BaseScorePerPair * combo;
+            score += BaseScorePerBubble * combo;
     }
 
     public void AddCombo()
@@ -76,7 +78,8 @@ public class GameStats : MonoBehaviour
 
     public void ResetCombo()
     {
-        combo = 0;
+        if (FindObjectsOfType<ComboShield>().Length <= 0)
+            combo = 0;
         ResetComboTimer();
     }
 
@@ -96,9 +99,19 @@ public class GameStats : MonoBehaviour
 
     private void UpdateTime()
     {
-        currentTime -= Time.deltaTime;
+        if (FindObjectOfType<FreezeTime>() != null)
+            currentTime -= Time.deltaTime / 8;
+        else
+            currentTime -= Time.deltaTime;
+
         if (currentTime <= 0)
-            Application.LoadLevel(2);
+        {
+            currentTime = 0;
+
+            Destroy(GetComponent<DoubleScore>());
+            Destroy(GetComponent<FreezeTime>());
+            Destroy(GetComponent<ComboShield>());
+        }
     }
 
     private void CheckCombo()

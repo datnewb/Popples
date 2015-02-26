@@ -13,32 +13,17 @@ public class Bubble : MonoBehaviour
 {
     public BubbleColor bubbleColor;
 
-    public Image unpoppedImage;
-    public Image poppedUnpairedImage;
-    public Image poppedPairedImage;
-
-    internal bool imagesSet;
-
     GameObject gameCanvas;
     bool wasInGameRect;
     bool intersectsGameRect;
     Rect gameCanvasRect;
-    Rect bubbleRect;
+    internal Rect bubbleRect;
 
     void Start()
     {
         gameCanvas = GameObject.Find("Game Canvas");
         wasInGameRect = false;
         intersectsGameRect = false;
-
-        if (unpoppedImage == null ||
-            poppedUnpairedImage == null ||
-            poppedPairedImage == null)
-        {
-            imagesSet = false;
-        }
-        else
-            imagesSet = true;
     }
 
     void Update()
@@ -56,10 +41,10 @@ public class Bubble : MonoBehaviour
         {
             if (!intersectsGameRect)
             {
-                if (GameObject.FindObjectOfType<BubblePairHandler>().selectedBubbles.Contains(this))
+                if (FindObjectOfType<BubblePairHandler>().selectedBubbles.Contains(this))
                 {
-                    GameObject.FindObjectOfType<BubblePairHandler>().selectedBubbles = new List<Bubble>();
-                    GameObject.FindObjectOfType<GameStats>().ResetCombo();
+                    FindObjectOfType<BubblePairHandler>().selectedBubbles = new List<Bubble>();
+                    FindObjectOfType<GameStats>().ResetCombo();
                 }
                 Invoke("DestroyBubble", 0.2f);
             }
@@ -75,18 +60,39 @@ public class Bubble : MonoBehaviour
 
     public void Pop()
     {
-        if (imagesSet)
+        if (FindObjectsOfType<CountDownTimer>().Length <= 0 && 
+            FindObjectOfType<GameStats>().CurrentTime > 0)
         {
-            GetComponent<Button>().image = poppedUnpairedImage;
+            BubblePairHandler bubblePairHandler = FindObjectOfType<BubblePairHandler>();
+            bubblePairHandler.selectedBubbles.Add(this);
+            if (bubblePairHandler.selectedBubbles.Count == 1)
+            {
+                AddPowerUps(bubbleColor);
+            }
+
+            FindObjectOfType<GameStats>().ResetComboTimer();
+            GetComponent<Button>().interactable = false;
+            GameObject.Find("GraphicsComponentsManager").GetComponent<GraphicsComponentsManager>().PopGraphics(GetComponent<RectTransform>(), GetComponent<Image>().sprite);
         }
-        GameObject.FindObjectOfType<BubblePairHandler>().selectedBubbles.Add(this);
-        GameObject.FindObjectOfType<GameStats>().ResetComboTimer();
-        GetComponent<Button>().interactable = false;
-        GameObject.Find("GraphicsComponentsManager").GetComponent<GraphicsComponentsManager>().PopGraphics(this.GetComponent<RectTransform>(), GetComponent<Image>().sprite);
     }
 
     private void DestroyBubble()
     {
         Destroy(gameObject);
+    }
+
+    private void AddPowerUps(BubbleColor bubbleColor)
+    {
+        Bubble[] bubbles = FindObjectsOfType<Bubble>();
+        foreach (Bubble bubble in bubbles)
+        {
+            if (bubble != this)
+            {
+                if (bubble.bubbleColor == bubbleColor)
+                {
+                    bubble.gameObject.AddComponent<PowerUp>();
+                }
+            }
+        }
     }
 }

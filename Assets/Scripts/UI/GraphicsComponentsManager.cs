@@ -61,7 +61,7 @@ public class GraphicsComponentsManager : MonoBehaviour {
             if(movingBG[i].GetComponent<RectTransform>().anchoredPosition.y <= -240)
             {
                 movingBG[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(movingBG[i].GetComponent<RectTransform>().anchoredPosition.x,
-                    movingBG[i == 0 ? 1 : 0].GetComponent<RectTransform>().anchoredPosition.y + 480);
+                    movingBG[i == 0 ? 1 : 0].GetComponent<RectTransform>().anchoredPosition.y + 475);
             }
         }
     }

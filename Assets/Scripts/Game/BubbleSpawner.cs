@@ -14,7 +14,7 @@ public class BubbleSpawner : MonoBehaviour
 
     float trio_StartX = -73f;
     float quad_StartX = -109.5f;
-    internal float bubbleCoordInterval = 73f;
+    internal static float bubbleCoordInterval = 73f;
     BubbleRowType currentRowType = BubbleRowType.Quartet;
 
     GameObject gameCanvas;
