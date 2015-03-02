@@ -29,9 +29,14 @@ public class BubblePairHandler : MonoBehaviour
                     gameStats.AddCombo();
 
                     selectedBubbles[1].gameObject.GetComponent<PowerUp>().actualEffect();
+                    //FindObjectOfType<GraphicsComponentsManager>().OnPopPowerUp(selectedBubbles[1]);
                     foreach (PowerUp powerUp in FindObjectsOfType<PowerUp>())
                         Destroy(powerUp);
-
+                    GameObject[] powerUpGraphics = GameObject.FindGameObjectsWithTag("PowerUpGraphic");
+                    foreach(GameObject x in powerUpGraphics)
+                    {
+                        Destroy(x);
+                    }
                     GameObject.Find("GraphicsComponentsManager").GetComponent<GraphicsComponentsManager>().ShakeScreen();
                 }
                 else

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ComboShield : MonoBehaviour 
 {
-    private float time = 5;
+    private float time = 2.5f;
 
     void Start()
     {
@@ -24,6 +24,13 @@ public class ComboShield : MonoBehaviour
     {
         time -= Time.deltaTime;
         if (time <= 0)
+        {
+            FindObjectOfType<GraphicsComponentsManager>().comboShieldInEffect = false;
             Destroy(this);
+        }
+        else
+        {
+            FindObjectOfType<GraphicsComponentsManager>().comboShieldInEffect = true;
+        }
     }
 }

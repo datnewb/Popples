@@ -7,10 +7,13 @@ public class GraphicsComponentsManager : MonoBehaviour {
     public float currentDropSpeed;
     public GameObject[] movingBG;
 
-    public GameObject comboPoofPrefab, popPrefab;
+    public GameObject comboPoofPrefab, popPrefab, doubleScorePrefab, freezeTimePrefab, comboShieldPrefab;
     public RectTransform comboTextTransform;
 
     private GameManager gameManager;
+
+    public bool doubleScoreInEffect, freezeTimeInEffect, comboShieldInEffect;
+    public GameObject doubleScoreInEffectGraphics, freezeTimeInEffectGraphics, comboShieldInEffectGraphics, timeSlider;
 
     void Start()
     {
@@ -22,6 +25,42 @@ public class GraphicsComponentsManager : MonoBehaviour {
         if(gameManager.CurrentGameState == GameState.Game)
         {
             ScrollBG();
+            doubleScoreInEffectGraphics.SetActive(true);
+            freezeTimeInEffectGraphics.SetActive(true);
+            comboShieldInEffectGraphics.SetActive(true);
+
+            if(doubleScoreInEffect)
+            {
+                doubleScoreInEffectGraphics.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(doubleScoreInEffectGraphics.GetComponent<CanvasGroup>().alpha, 1, Time.deltaTime);
+            }
+            else
+            {
+                doubleScoreInEffectGraphics.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(doubleScoreInEffectGraphics.GetComponent<CanvasGroup>().alpha, 0, Time.deltaTime);
+            }
+            if(freezeTimeInEffect)
+            {
+                timeSlider.GetComponent<Image>().color = Color.Lerp(timeSlider.GetComponent<Image>().color, new Color(8, 189, 255), 3 * Time.deltaTime);
+                freezeTimeInEffectGraphics.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(doubleScoreInEffectGraphics.GetComponent<CanvasGroup>().alpha, 1, Time.deltaTime);
+            }
+            else
+            {
+                timeSlider.GetComponent<Image>().color = Color.Lerp(timeSlider.GetComponent<Image>().color, new Color(0, 255, 0), 3 * Time.deltaTime);
+                freezeTimeInEffectGraphics.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(doubleScoreInEffectGraphics.GetComponent<CanvasGroup>().alpha, 0, Time.deltaTime);
+            }
+            if(comboShieldInEffect)
+            {
+                comboShieldInEffectGraphics.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(comboShieldInEffectGraphics.GetComponent<CanvasGroup>().alpha, 1, Time.deltaTime);
+            }
+            else
+            {
+                comboShieldInEffectGraphics.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(comboShieldInEffectGraphics.GetComponent<CanvasGroup>().alpha, 0, Time.deltaTime);
+            }
+        }
+        else
+        {
+            doubleScoreInEffectGraphics.SetActive(false);
+            freezeTimeInEffectGraphics.SetActive(false);
+            comboShieldInEffectGraphics.SetActive(false);
         }
     }
 
@@ -47,8 +86,59 @@ public class GraphicsComponentsManager : MonoBehaviour {
         GameObject instance = Instantiate(comboPoofPrefab, Vector3.zero, Quaternion.identity) as GameObject;
         instance.transform.SetParent(GameObject.Find("UI Canvas").transform);
         instance.GetComponent<RectTransform>().anchoredPosition = comboTextTransform.anchoredPosition;
+        comboTextTransform.gameObject.GetComponent<Animator>().Play("ComboShake");
         Destroy(instance, .5f);
         
+    }
+
+    public void AddPowerUpGraphics(string powerUp, GameObject bubble)
+    {
+        GameObject prefab = null;
+        switch(powerUp)
+        {
+            case "DoubleScore":
+                prefab = doubleScorePrefab;
+                break;
+            case "FreezeTime":
+                prefab = freezeTimePrefab;
+                break;
+            case "ComboShield":
+                prefab = comboShieldPrefab;
+                break;
+        }
+
+        GameObject instance = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
+        instance.transform.SetParent(GameObject.Find("Game Canvas").transform);
+        instance.GetComponent<RectTransform>().localScale = bubble.GetComponent<RectTransform>().localScale;
+        instance.GetComponent<RectTransform>().anchoredPosition = bubble.GetComponent<RectTransform>().anchoredPosition;
+        instance.transform.SetParent(bubble.transform);
+        
+    }
+
+    public void OnPopPowerUp(Bubble bubble)
+    {
+        GameObject prefab = null;
+        switch (bubble.effect)
+        {
+            case "DoubleScore":
+                prefab = doubleScorePrefab;
+                break;
+            case "FreezeTime":
+                prefab = freezeTimePrefab;
+                break;
+            case "ComboShield":
+                prefab = comboShieldPrefab;
+                break;
+            case "":
+                break;
+        }
+
+        GameObject instance = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
+        instance.transform.SetParent(GameObject.Find("Game Canvas").transform);
+        instance.GetComponent<RectTransform>().localScale = bubble.GetComponent<RectTransform>().localScale;
+        instance.GetComponent<RectTransform>().anchoredPosition = bubble.GetComponent<RectTransform>().anchoredPosition;
+        instance.GetComponent<Animator>().Play("Explode");
+        Destroy(instance, .5f);
     }
 
     void ScrollBG()

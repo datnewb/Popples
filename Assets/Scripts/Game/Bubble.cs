@@ -18,6 +18,7 @@ public class Bubble : MonoBehaviour
     bool intersectsGameRect;
     Rect gameCanvasRect;
     internal Rect bubbleRect;
+    public string effect = "";
 
     void Start()
     {
@@ -88,7 +89,7 @@ public class Bubble : MonoBehaviour
         {
             if (bubble != this)
             {
-                if (bubble.bubbleColor == bubbleColor)
+                if (bubble.bubbleColor == bubbleColor && bubble.GetComponent<UnityEngine.UI.Button>().interactable)
                 {
                     bubble.gameObject.AddComponent<PowerUp>();
                 }

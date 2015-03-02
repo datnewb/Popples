@@ -3,8 +3,8 @@ using System.Collections;
 
 public class FreezeTime : MonoBehaviour 
 {
-    private float time = 5;
-    private float timeAdd = 2;
+    private float time = 2.5f;
+    private float timeAdd = 1;
 
     void Start()
     {
@@ -25,6 +25,13 @@ public class FreezeTime : MonoBehaviour
     {
         time -= Time.deltaTime;
         if (time <= 0)
+        {
             Destroy(this);
+            FindObjectOfType<GraphicsComponentsManager>().freezeTimeInEffect = false;
+        }
+        else
+        {
+            FindObjectOfType<GraphicsComponentsManager>().freezeTimeInEffect = true;
+        }
     }
 }

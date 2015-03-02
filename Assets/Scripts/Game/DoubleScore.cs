@@ -3,8 +3,8 @@ using System.Collections;
 
 public class DoubleScore : MonoBehaviour 
 {
-    private float time = 5;
-    private float timeAdd = 2;
+    private float time = 2.5f;
+    private float timeAdd = 1;
 
     private BubblePairHandler bubblePairHandler;
     private GameStats gameStats;
@@ -38,6 +38,13 @@ public class DoubleScore : MonoBehaviour
 
         time -= Time.deltaTime;
         if (time <= 0)
+        {
             Destroy(this);
+            FindObjectOfType<GraphicsComponentsManager>().doubleScoreInEffect = false;
+        }
+        else
+        {
+            FindObjectOfType<GraphicsComponentsManager>().doubleScoreInEffect = true;
+        }
 	}
 }

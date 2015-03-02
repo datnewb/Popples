@@ -17,7 +17,27 @@ public class PowerUp : MonoBehaviour
         effects.Add(SlowTime);
         effects.Add(ComboShield);
 
-        actualEffect = effects[Random.Range(0, effects.Count)];
+        int x = Random.Range(0, effects.Count);
+        actualEffect = effects[x];
+
+        switch(x)
+        {
+            case 0:
+                break;
+            case 1:
+                FindObjectOfType<GraphicsComponentsManager>().AddPowerUpGraphics("DoubleScore", this.gameObject);
+                this.GetComponent<Bubble>().effect = "DoubleScore";
+                break;
+            case 2:
+                FindObjectOfType<GraphicsComponentsManager>().AddPowerUpGraphics("FreezeTime", this.gameObject);
+                this.GetComponent<Bubble>().effect = "FreezeTime";
+                break;
+            case 3:
+                FindObjectOfType<GraphicsComponentsManager>().AddPowerUpGraphics("ComboShield", this.gameObject);
+                this.GetComponent<Bubble>().effect = "ComboShield";
+                break;
+
+        }
     }
 
     private void NoEffect()
@@ -28,6 +48,7 @@ public class PowerUp : MonoBehaviour
     private void DoubleScore()
     {
         FindObjectOfType<GameStats>().gameObject.AddComponent<DoubleScore>();
+        
     }
 
     private void SlowTime()
@@ -37,6 +58,6 @@ public class PowerUp : MonoBehaviour
 
     private void ComboShield()
     {
-
+        FindObjectOfType<GameStats>().gameObject.AddComponent<ComboShield>();
     }
 }

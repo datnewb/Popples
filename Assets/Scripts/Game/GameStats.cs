@@ -3,9 +3,9 @@ using System.Collections;
 
 public class GameStats : MonoBehaviour 
 {
-    internal const float StartTime = 3;
+    internal const float StartTime = 60;
     const uint BaseScorePerBubble = 25;
-    const float ComboMaxTime = 2f;
+    const float ComboMaxTime = 1f;
 
     uint score;
     uint combo;
@@ -81,6 +81,11 @@ public class GameStats : MonoBehaviour
         if (FindObjectsOfType<ComboShield>().Length <= 0)
             combo = 0;
         ResetComboTimer();
+        GameObject[] powerUpGraphics = GameObject.FindGameObjectsWithTag("PowerUpGraphic");
+        foreach (GameObject x in powerUpGraphics)
+        {
+            Destroy(x);
+        }
     }
 
     public void ResetGameStats()
@@ -100,7 +105,7 @@ public class GameStats : MonoBehaviour
     private void UpdateTime()
     {
         if (FindObjectOfType<FreezeTime>() != null)
-            currentTime -= Time.deltaTime / 8;
+            currentTime -= Time.deltaTime / 4;
         else
             currentTime -= Time.deltaTime;
 
