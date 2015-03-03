@@ -9,6 +9,9 @@ public class PostGameUI : MonoBehaviour
 
     private GameManager gameManager;
 
+    [SerializeField]
+    AudioClip buttonSelectAudio;
+
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -20,11 +23,13 @@ public class PostGameUI : MonoBehaviour
     public void PlayAgain()
     {
         gameManager.gameStats.ResetGameStats();
+        audio.PlayOneShot(buttonSelectAudio);
         Application.LoadLevel(1);
     }
 
     public void BackToMainMenu()
     {
+        audio.PlayOneShot(buttonSelectAudio);
         Application.LoadLevel(0);
     }
 }
